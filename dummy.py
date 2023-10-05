@@ -16,7 +16,7 @@ logging.basicConfig(filename='logs/app.log',
                     level=logging.INFO)
 
 sentry_sdk.init(
-    dsn="https://7c69ad74f5b7e5e464e1ecfecffa5ad1@o4505771872616448.ingest.sentry.io/4505771887230976",
+    dsn="https://c6d27896735ad104ac268539033bfb73@o4505994371596288.ingest.sentry.io/4505999352594432",
     integrations=[
         FlaskIntegration(),
     ],
