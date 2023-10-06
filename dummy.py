@@ -94,7 +94,10 @@ def index():
 
 @app.route('/debug-sentry')
 def trigger_error():
-    division_by_zero = 1 / 0
+    @app.route('/debug-sentry')
+def trigger_error():
+    # division_by_zero = 1 / 0  # Commented out to prevent division by zero error
+    return {"status": "Error triggered successfully"}
 
 if __name__ == "__main__":
     app.run(debug=True)
