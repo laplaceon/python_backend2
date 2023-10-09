@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 import logging
 import os
 import time
@@ -95,6 +95,35 @@ def index():
 @app.route('/debug-sentry')
 def trigger_error():
     division_by_zero = 1 / 0
+
+# Mock database for the new endpoint
+data = [
+    {"id": 1, "name": "Alice", "age": "29", "email": "alice@example.com"},
+    {"id": 2, "name": "Bob", "email": "bob@example.com"},
+    {"id": 3, "name": "Charlie", "age": 35, "email": "charlie@example.com"}
+]
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    age = request.args.get('age')
+    if age:
+        try:
+            age = int(age)  # This can raise a ValueError
+        except ValueError:
+            logging.error("ERROR: Invalid age format provided.")
+            return jsonify({"error": "Invalid age format"}), 400
+
+    results = []
+    for entry in data:
+        if 'age' in entry:
+            # Avoiding TypeError by ensuring both are integers for comparison
+            if age and int(entry["age"]) == age:
+                results.append(entry)
+        elif not age:
+            results.append(entry)
+
+    return jsonify(results)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
