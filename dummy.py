@@ -94,7 +94,11 @@ def index():
 
 @app.route('/debug-sentry')
 def trigger_error():
-    division_by_zero = 1 / 0
+    try:
+        division_by_zero = 1 / 0  # Division operation causing the error
+    except ZeroDivisionError:
+        # Handle the error by returning a default value or displaying an error message
+        return "Error: Division by zero is not allowed"
 
 # Mock database for the new endpoint
 data = [
