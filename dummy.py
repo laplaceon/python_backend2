@@ -94,7 +94,7 @@ def index():
 
 @app.route('/debug-sentry')
 def trigger_error():
-    division_by_zero = 1 / 0
+    division_by_zero = 1 / 1  # Change the divisor to a non-zero value
 
 # Mock database for the new endpoint
 data = [
