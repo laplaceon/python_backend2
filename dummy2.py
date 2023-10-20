@@ -1,6 +1,35 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
+import logging
+import os
+import time
+
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+# Check and create if logs directory doesn't exist
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
+# Define logging configuration
+logging.basicConfig(filename='logs/app.log', 
+                    format='%(asctime)s - test_api - %(levelname)s - %(message)s', 
+                    level=logging.INFO)
+
+sentry_sdk.init(
+    dsn="https://c6d27896735ad104ac268539033bfb73@o4505994371596288.ingest.sentry.io/4505999352594432",
+    integrations=[
+        FlaskIntegration(),
+    ],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0
+)
+
+
 app = Flask(__name__)
 
 # Configurations
