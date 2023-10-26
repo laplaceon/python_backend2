@@ -74,5 +74,25 @@ def setup():
         ])
         db.session.commit()
 
+def get_users():
+    age = request.args.get('age')
+    if age:
+        try:
+            age = int(age)  # This can raise a ValueError
+        except ValueError:
+            logging.error("ERROR: Invalid age format provided.")
+            return jsonify({"error": "Invalid age format"}), 400
+
+    results = []
+    for entry in data:
+        if 'age' in entry:
+            # Avoiding TypeError by ensuring both are integers for comparison
+            if age and int(entry["age"]) == age:
+                results.append(entry)
+        elif not age:
+            results.append(entry)
+
+    return jsonify(results)
+
 if __name__ == '__main__':
     app.run(debug=True)
