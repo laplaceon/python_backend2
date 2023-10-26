@@ -69,5 +69,10 @@ def setup():
         ])
         db.session.commit()
 
+@app.route('/debug-sentry')
+def trigger_error():
+    # division_by_zero = 1 / 0  # Remove this line
+    return {"status": "No error"}  # Return a response to avoid the error
+
 if __name__ == '__main__':
     app.run(debug=True)
