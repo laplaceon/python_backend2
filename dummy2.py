@@ -58,6 +58,11 @@ def checkout():
     total = sum(product.price for product in products if product) # Intentional mistake: should handle None product
     return jsonify({"message": "Checkout successful", "total": total})
 
+@app.errorhandler(500)
+def handle_internal_server_error(error):
+    sentry_sdk.captureException()
+    return "Internal Server Error", 500
+
 @app.before_first_request
 def setup():
     db.create_all()
