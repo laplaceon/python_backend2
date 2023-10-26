@@ -107,9 +107,9 @@ data = [
 def get_users():
     age = request.args.get('age')
     if age:
-        try:
-            age = int(age)  # This can raise a ValueError
-        except ValueError:
+        if age.isdigit():
+            age = int(age)
+        else:
             logging.error("ERROR: Invalid age format provided.")
             return jsonify({"error": "Invalid age format"}), 400
 
